@@ -5,14 +5,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const TelaCurso = ({navigation}) => {
   return (
     <View style={styles.container}>
-      
-      <View style={styles.header}>
-        <Image
-          source={require('../assets/Ellipse 1.png')}
-          style={styles.profileImage}
-        />
-        <Text style={styles.name}>Cenilson Canguila</Text>
-      </View>
 
 
       <View style={styles.featuredLessonContainer}>
