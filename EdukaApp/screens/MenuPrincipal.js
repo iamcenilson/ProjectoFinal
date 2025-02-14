@@ -26,8 +26,12 @@ const MenuPrincipal = ({ navigation }) => {
   }, [currentIndex]);
 
   const aulas = [
-    { id: "1", titulo: "Design e comunicação de Audiovisual", disciplina: "DCA", imagem: require('../assets/Jogo 2d.png') },
-    { id: "2", titulo: "Técnicas Multimédia", disciplina: "Técnicas Multimédia", imagem: require('../assets/Rectangle 12.png') },
+    { id: "1", titulo: "Design e comunicação de Audiovisual", disciplina: "DCA",
+       imagem: require('../assets/Jogo 2d.png'), screen: 'DCA' },
+
+
+    { id: "2", titulo: "Técnicas Multimédia", disciplina: "Técnicas Multimédia",
+       imagem: require('../assets/Rectangle 12.png'), screen: 'TM' }
   ];
 
   // Filtração das disciplina selecionada
@@ -87,11 +91,14 @@ const MenuPrincipal = ({ navigation }) => {
       {/* Lista de aulas filtradas */}
       <ScrollView style={styles.lessonsContainer}>
         {aulasFiltradas.map((aula) => (
-          <TouchableOpacity key={aula.id} style={styles.lessonCard}>
+          <TouchableOpacity 
+            key={aula.id} 
+            style={styles.lessonCard} 
+            onPress={() => navigation.navigate(aula.screen)}
+          >
             <Image source={aula.imagem} style={styles.lessonImage} />
             <View>
               <Text style={styles.lessonTitle}>{aula.titulo}</Text>
-              <Text style={styles.lessonDuration}></Text>
             </View>
           </TouchableOpacity>
         ))}
@@ -103,7 +110,7 @@ const MenuPrincipal = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     paddingHorizontal: 16,
   },
   header: {
@@ -170,7 +177,7 @@ const styles = StyleSheet.create({
   lessonCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F7F7F7',
     borderRadius: 25,
     padding: 33,
     marginBottom: 13,
