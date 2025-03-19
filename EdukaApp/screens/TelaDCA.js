@@ -3,11 +3,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const temas = [
-  { id: '1', titulo: 'Introdução ao Design' },
-  { id: '2', titulo: 'Estudo das Formais' },
-  { id: '3', titulo: 'Psicologia das Cores' },
-  { id: '4', titulo: 'Logo' },
-  { id: '5', titulo: 'Vectores' },
+  { id: '1', titulo: 'Introdução Multimedia' },
+  { id: '2', titulo: 'Fotografia Digital' },
+  { id: '3', titulo: 'Comunicação Visual' },
+  { id: '4', titulo: 'Princípios do Design' },
 ];
 
 const TelaDCA = ({ navigation }) => {
@@ -29,13 +28,18 @@ const TelaDCA = ({ navigation }) => {
       <Text style={styles.sectionTitle}>Tópicos</Text>
       <ScrollView style={styles.topicsContainer} showsVerticalScrollIndicator={false}>
         {temas.map((tema) => (
-          <TouchableOpacity key={tema.id} style={styles.topicCard} activeOpacity={0.7}>
-            <View style={styles.iconCircle}>
-              <Icon name="color-palette-outline" size={24} color="#17234D" />
-            </View>
-            <Text style={styles.topicTitle}>{tema.titulo}</Text>
-            <Icon name="chevron-forward-outline" size={24} color="#17234D" />
-          </TouchableOpacity>
+          <TouchableOpacity 
+          key={tema.id} 
+          style={styles.topicCard} 
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('DCAAula', { tema: tema.titulo })}
+        >
+          <View style={styles.iconCircle}>
+            <Icon name="color-palette-outline" size={24} color="#17234D" />
+          </View>
+          <Text style={styles.topicTitle}>{tema.titulo}</Text>
+          <Icon name="chevron-forward-outline" size={24} color="#17234D" />
+        </TouchableOpacity>        
         ))}
       </ScrollView>
 
@@ -98,16 +102,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   topicsContainer: {
-    marginTop: 5,
+    marginTop: 10,
   },
   topicCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F8F9FF',
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

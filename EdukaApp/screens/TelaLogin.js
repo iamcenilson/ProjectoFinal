@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import api from '../api';
 
+
 export default function TelaLogin({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,7 +29,7 @@ export default function TelaLogin({ navigation }) {
 
       <TextInput placeholder="Senha" value={password} onChangeText={setPassword}
         secureTextEntry
-        style={styles.input1}
+        style={styles.input}
       />
 
       <TouchableOpacity style={styles.forgotPasswordContainer}>
@@ -57,12 +58,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#1F41BB',
+    color: '#FFA706',
     marginBottom: 20,
   },
   subtitle: {
     fontSize: 16,
-    color: '#000000',
+    color: '#8338EC',
     fontWeight: 'bold',
     marginBottom: 30,
   },
@@ -74,26 +75,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#1F41BB',
-  },
-  input1: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#F1F4FF',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 15,
+    borderColor: '#8338EC',
   },
   forgotPasswordContainer: {
     alignSelf: 'flex-end',
     marginBottom: 20,
   },
   forgotPassword: {
-    color: '#1F41BB',
+    color: '#FFA706',
     fontSize: 14,
   },
   button: {
-    backgroundColor: '#1F41BB',
+    backgroundColor: '#FFA706',
     width: '100%',
     height: 50,
     borderRadius: 10,

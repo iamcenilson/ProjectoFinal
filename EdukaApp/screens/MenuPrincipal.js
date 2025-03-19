@@ -27,11 +27,11 @@ const MenuPrincipal = ({ navigation }) => {
 
   const aulas = [
     { id: "1", titulo: "Design e comunicação de Audiovisual", disciplina: "DCA",
-       imagem: require('../assets/Jogo 2d.png'), screen: 'DCA' },
+       imagem: require('../assets/DCA.png'), screen: 'DCA' },
 
 
     { id: "2", titulo: "Técnicas Multimédia", disciplina: "Técnicas Multimédia",
-       imagem: require('../assets/Rectangle 12.png'), screen: 'TM' }
+       imagem: require('../assets/TM.png'), screen: 'TM' }
   ];
 
   // Filtração das disciplina selecionada

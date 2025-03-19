@@ -5,8 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const temas = [
   { id: '1', titulo: 'Photoshop'},
   { id: '2', titulo: 'Inkscape' },
-  { id: '3', titulo: 'Blander' },
-  { id: '4', titulo: 'Unity' },
+  { id: '3', titulo: 'Blender' },
 ];
 
 const TelaTM = ({ navigation }) => {
