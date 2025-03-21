@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     fontFamily: 'Poppins_400Regular',
-    color: '#4A4A4A',
+    color: '#000000',
     textAlign: 'left',
     alignSelf: 'flex-start',
     marginBottom: 20,

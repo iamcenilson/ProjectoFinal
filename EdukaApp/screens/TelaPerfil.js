@@ -27,22 +27,6 @@ const TelaPerfil = ({navigation}) => {
           <Text style={styles.statLabel}>Horas de Estudo</Text>
         </View>
       </View>
-
-      
-      <View style={styles.footerNavigation}>
-       <TouchableOpacity>
-            <Icon name="home-outline" size={28} color="#000" onPress={() => navigation.navigate('Menu')} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-            <Icon name="book-outline" size={28} color="#000" onPress={() => navigation.navigate('Curso')} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name="settings-outline" size={28} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name="person-circle-outline" size={28} color="#007bff" onPress={() => navigation.navigate('Perfil')} />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

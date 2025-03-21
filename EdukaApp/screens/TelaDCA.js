@@ -3,25 +3,27 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const temas = [
-  { id: '1', titulo: 'Introdução Multimedia' },
-  { id: '2', titulo: 'Fotografia Digital' },
-  { id: '3', titulo: 'Comunicação Visual' },
-  { id: '4', titulo: 'Princípios do Design' },
+  { id: '1', titulo: 'Introdução Multimedia', icon: 'film-outline' },
+  { id: '2', titulo: 'Fotografia Digital', icon: 'camera-outline' },
+  { id: '3', titulo: 'Comunicação Visual', icon: 'image-outline' },
+  { id: '4', titulo: 'Princípios do Design', icon: 'color-palette-outline' },
 ];
 
 const TelaDCA = ({ navigation }) => {
   return (
     <View style={styles.container}>
-
       {/* Banner */}
       <View style={styles.bannerContainer}>
-        <Image source={require('../assets/linear.png')} style={styles.bannerImage} />
+        <Image source={require('../assets/linear2.png')} style={styles.bannerImage} />
         <View style={styles.bannerContent}>
-          <View style={styles.iconCircle}>
-            <Icon name="time-outline" size={24} color="#17234D" />
-          </View>
-          <Text style={styles.bannerTitle}>Temas de DCA</Text>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Icon name="chevron-back" size={24} color="#0CF574" />
+          </TouchableOpacity>
+          <Text style={styles.bannerTitle}>Temas de Design</Text>
+          <Text style={styles.bannerTitle}>e Comunicação</Text>
+          <Text style={styles.bannerTitle}>Audiovisual</Text>
         </View>
+        <Image source={require('../assets/ladoDCA.png')} style={styles.sideImage} />
       </View>
 
       {/* Seção de tópicos */}
@@ -29,20 +31,19 @@ const TelaDCA = ({ navigation }) => {
       <ScrollView style={styles.topicsContainer} showsVerticalScrollIndicator={false}>
         {temas.map((tema) => (
           <TouchableOpacity 
-          key={tema.id} 
-          style={styles.topicCard} 
-          activeOpacity={0.7}
-          onPress={() => navigation.navigate('DCAAula', { tema: tema.titulo })}
-        >
-          <View style={styles.iconCircle}>
-            <Icon name="color-palette-outline" size={24} color="#17234D" />
-          </View>
-          <Text style={styles.topicTitle}>{tema.titulo}</Text>
-          <Icon name="chevron-forward-outline" size={24} color="#17234D" />
-        </TouchableOpacity>        
+            key={tema.id} 
+            style={styles.topicCard} 
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate('DCAAula', { tema: tema.titulo })}
+          >
+            <View style={styles.iconCircle}>
+              <Icon name={tema.icon} size={24} color="#17234D" />
+            </View>
+            <Text style={styles.topicTitle}>{tema.titulo}</Text>
+            <Icon name="chevron-forward-outline" size={24} color="#17234D" />
+          </TouchableOpacity>        
         ))}
       </ScrollView>
-
     </View>
   );
 };
@@ -74,30 +75,32 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
   },
-  iconCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: 25,
+  backButton: {
     backgroundColor: '#fff',
+    borderRadius: 20,
+    width: 35,
+    height: 35,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 13,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    marginBottom: 10,
   },
   bannerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: 'Poppins-Bold',
     color: '#fff',
-    marginTop: '20'
+  },
+  sideImage: {
+    width: 130,
+    height: 120,
+    resizeMode: 'contain',
+    position: 'absolute',
+    right: 0,
+    bottom: 40,
   },
   sectionTitle: {
     color: '#17234D',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
     marginTop: 20,
     marginBottom: 10,
   },
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#F8F9FF',
-    borderRadius: 25,
+    borderRadius: 15,
     paddingVertical: 15,
     paddingHorizontal: 20,
     marginBottom: 15,
@@ -118,12 +121,25 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  iconCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
   topicTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
     flex: 1,
     color: '#17234D',
-    marginLeft: 12,
   },
 });
 

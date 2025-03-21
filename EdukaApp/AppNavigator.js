@@ -18,6 +18,8 @@ import TelapdfTM from './screens/TelapdfTM';
 import TelaAulaDCA from './screens/TelaAulaDCA';
 import TelaPdfDCA from './screens/TelaPdfDCA';
 import Eduka from './screens/Eduka';
+import TelaPerguntas from './screens/TelaPerguntas';
+import TelaResultado from './screens/TelaResultado';
 
 
 const Stack = createStackNavigator();
@@ -105,6 +107,16 @@ export default function App() {
          <Stack.Screen 
           name="PDF" 
           component={TelaPdfDCA} 
+          options={{ headerShown: false }} 
+        />
+         <Stack.Screen 
+          name="Perguntas" 
+          component={TelaPerguntas} 
+          options={{ headerShown: false }} 
+        />
+         <Stack.Screen 
+          name="Resultado" 
+          component={TelaResultado} 
           options={{ headerShown: false }} 
         />
       
