@@ -1,28 +1,34 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
+import { Ionicons } from '@expo/vector-icons'; // Ícone de voltar
 
 export default function TelaQuiz({ navigation }) {
   const [fontsLoaded] = useFonts({
-        'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
-        'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
-      });
-    
-      if (!fontsLoaded) {
-        return null;
-      } 
+    'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
+      {/* Botão de Voltar */}
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Ionicons name="chevron-back" size={30} color="#FF6700" />
+      </TouchableOpacity>
+
       {/* Fundo Laranja */}
       <View style={styles.header}>
         <Image source={require('../assets/fundoQuiz.png')} style={styles.backgroundImage} />
         <Text style={styles.title}>Quiz</Text>
       </View>
-      
+
       {/* Ícone */}
       <Image source={require('../assets/IconeQuiz.png')} style={styles.icon} />
-      
+
       {/* Texto de Introdução */}
       <Text style={styles.introText}>
         Venha testar os teus conhecimentos <Text style={styles.boldText}>Multimediano!</Text>
@@ -30,24 +36,22 @@ export default function TelaQuiz({ navigation }) {
       <Text style={styles.warningText}>
         ** Mas cuidado... só os verdadeiros
       </Text>
-      <Text style={styles.warningText}>
-      multimedianos vão gabaritar! 🔥
-      </Text>
-      
+      <Text style={styles.warningText}>multimedianos vão gabaritar! 🔥</Text>
+
       {/* Botões de Seleção */}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity 
           style={styles.button} 
           onPress={() => navigation.navigate('Perguntas', { disciplina: 'DCA' })}
         >
-        <Text style={styles.buttonText}>D.C.A</Text>
+          <Text style={styles.buttonText}>D.C.A</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity     
-        style={styles.button} 
-        onPress={() => navigation.navigate('Perguntas', { disciplina: 'TM' })}
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => navigation.navigate('Perguntas', { disciplina: 'TM' })}
         >
-       <Text style={styles.buttonText}>T.M</Text>
+          <Text style={styles.buttonText}>T.M</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -60,6 +64,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5F7FB',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 55,
+    left: 20,
+    width: 35,
+    height: 35,
+    zIndex: 10,
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     position: 'absolute',
@@ -92,7 +108,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: 20,
     color: '#303036',
-    marginBottom: 25
+    marginBottom: 25,
   },
   boldText: {
     fontFamily: 'Poppins-Bold',

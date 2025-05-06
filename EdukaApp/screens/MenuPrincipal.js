@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useFonts } from 'expo-font';
 
@@ -33,9 +33,12 @@ const MenuPrincipal = ({ navigation }) => {
       <View style={styles.header}>
         <View>
           <Text style={styles.welcomeText}>Olá Bem-Vindo</Text>
-          <Text style={styles.userName}>Alanna!</Text>
+          <Text style={styles.userName}>EDUKA</Text>
         </View>
-        <Image source={require('../assets/Perfil.png')} style={styles.profileImage} />
+        <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
+            <Image source={require('../assets/Perfil.png')} style={styles.profileImage} />
+        </TouchableOpacity>
+
       </View>
 
       {/* Introdução ao Eduka */}

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { ProgressBar } from 'react-native-paper';
+import { View, Text, TouchableOpacity, StyleSheet, } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const perguntas = {
   DCA: [
     { 
       pergunta: 'O que significa DCA?', 
-      opcoes: ['Design e comunicação Audiovisual', 'Departamento de Computação Avançada', 'Divisão de Ciências Agrárias', 'Desenvolvimento de Cálculos e Algoritmos'], 
-      respostaCorreta: 'Design e comunicação Audiovisual' 
+      opcoes: ['Design comunicação e Audiovisual', 'Departamento de Computação Avançada', 'Divisão de Ciências Agrárias', 'Desenvolvimento de Cálculos e Algoritmos'], 
+      respostaCorreta: 'Design comunicação e Audiovisual' 
     },
     { 
       pergunta: 'DCA está relacionado a que área?', 
       opcoes: ['Medicina', 'Engenharia', 'Arte', 'Multimédia'], 
       respostaCorreta: 'Multimédia' 
-    }
+    },
   ],
   TM: [
     { 
@@ -25,7 +26,7 @@ const perguntas = {
       pergunta: 'Qual das opções é um exemplo de multimídia?', 
       opcoes: ['Um livro impresso', 'Um vídeo interativo', 'Uma pintura', 'Uma fotografia'], 
       respostaCorreta: 'Um vídeo interativo' 
-    }
+    },
   ]
 };
 
@@ -56,10 +57,10 @@ export default function TelaPerguntas({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backText}>{'<'}</Text>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Icon name="chevron-back" size={24} color="#fff" />
       </TouchableOpacity>
-      <ProgressBar progress={questoes.length > 0 ? (indice + 1) / questoes.length : 0} color="#00C851" style={styles.progressBar} />
+
       <Text style={styles.score}>Questões {indice + 1} de {questoes.length} | {pontos} Pontos</Text>
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>{questoes[indice]?.pergunta || 'Carregando...'}</Text>
@@ -67,14 +68,25 @@ export default function TelaPerguntas({ route, navigation }) {
       {questoes[indice]?.opcoes.map((opcao, i) => (
         <TouchableOpacity 
           key={i} 
-          style={[styles.optionButton, selecionado === opcao && styles.selectedOption]} 
-          onPress={() => setSelecionado(opcao)}
-        >
-          <Text style={styles.optionText}>{String.fromCharCode(65 + i)}. {opcao}</Text>
+          style={[
+          styles.optionButton, 
+          selecionado === opcao && styles.selectedOption
+        ]} 
+        onPress={() => setSelecionado(opcao)}
+      >
+          <View style={styles.optionCircle}><Text style={styles.optionLetter}>{String.fromCharCode(65 + i)}</Text></View>
+          <Text style={styles.optionText}>{opcao}</Text>
         </TouchableOpacity>
+        
+
       ))}
       <TouchableOpacity style={styles.verifyButton} onPress={verificarResposta}>
-        <Text style={styles.verifyText}>Verificar</Text>
+       <LinearGradient
+            colors={['#FF8000', '#FFD700']}
+            style={styles.VerifyGradient}
+      >
+            <Text style={styles.verifyText}>Verificar</Text>
+      </LinearGradient>
       </TouchableOpacity>
     </View>
   );
@@ -92,31 +104,25 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 40,
     left: 20,
-    padding: 10,
-    backgroundColor: '#FFA706',
-    borderRadius: 20,
-  },
-  backText: {
-    fontSize: 18,
-    color: '#FFF',
-    fontWeight: 'bold',
-  },
-  progressBar: {
-    width: '80%',
-    height: 10,
-    marginVertical: 10,
+    width: 35,
+    height: 35,
+    borderRadius: 25,
+    backgroundColor: '#FF6700',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   score: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
+    marginTop: 35,
+    fontSize: 14,
+    fontFamily: 'Poppins-Bold',
   },
   questionContainer: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#F6FAFB',
     padding: 20,
     borderRadius: 10,
     marginVertical: 20,
-    width: '90%',
+    width: '300',
+    height:'175',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -124,38 +130,60 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   questionText: {
+    marginTop:'50',
     fontSize: 18,
     textAlign: 'center',
+    fontFamily: 'Poppins-Bold',
   },
   optionButton: {
-    backgroundColor: '#FFF',
-    padding: 15,
-    borderRadius: 10,
-    marginVertical: 5,
-    borderWidth: 2,
-    borderColor: '#FFA706',
-    width: '90%',
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#FFF',
+    padding: 13,
+    borderRadius: 20,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: '#FFA706',
+    width: '100%',
+
+  },
+  trueOption: {
+    borderColor: 'green',
+  },
+  falseOption: {
+    borderColor: 'red',
   },
   selectedOption: {
     backgroundColor: '#FFA706',
   },
+  optionCircle: {
+    width: 35,
+    height: 35,
+    borderRadius: 10,
+    backgroundColor: '#8338EC',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  optionLetter: {
+    color: '#FFF',
+    fontFamily: 'Poppins-Bold',
+  },
   optionText: {
     color: '#333',
-    fontWeight: 'bold',
-    marginLeft: 10,
+    fontFamily: 'Poppins-Regular',
+    flex: 1,
   },
-  verifyButton: {
-    backgroundColor: '#FFA706',
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 20,
-    width: '90%',
+  VerifyGradient: {
+    marginTop: '15',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 15,
     alignItems: 'center',
   },
   verifyText: {
     color: '#FFF',
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
+    fontSize: 15
   },
 });
