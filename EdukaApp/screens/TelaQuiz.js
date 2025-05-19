@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Ionicons } from '@expo/vector-icons'; // Ícone de voltar
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function TelaQuiz({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -16,7 +16,7 @@ export default function TelaQuiz({ navigation }) {
   return (
     <View style={styles.container}>
       {/* Botão de Voltar */}
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Menu')}>
         <Ionicons name="chevron-back" size={30} color="#FF6700" />
       </TouchableOpacity>
 

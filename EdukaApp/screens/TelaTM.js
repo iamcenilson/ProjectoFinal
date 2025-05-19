@@ -52,7 +52,21 @@ const TelaTM = ({ navigation }) => {
           </TouchableOpacity>        
         ))}
       </ScrollView>
+
+      {/* Rodapé */}
+            <View style={styles.footer}>
+              <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Quiz')}>
+                <Image source={require('../assets/jogo.png')} style={styles.footerIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Menu')}>
+                <Image source={require('../assets/home.png')} style={[styles.footerIcon, styles.activeIcon]} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Perfil')}>
+                <Image source={require('../assets/user.png')} style={styles.footerIcon} />
+              </TouchableOpacity>
+            </View>
     </View>
+    
   );
 };
 
@@ -148,6 +162,23 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
     flex: 1,
     color: '#17234D',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5E5',
+  },
+  footerButton: {
+    padding: 10,
+  },
+  footerIcon: {
+    width: 30,
+    height: 30,
+    tintColor: '#2E2E2E',
   },
 });
 

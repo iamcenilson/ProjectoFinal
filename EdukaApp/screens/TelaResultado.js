@@ -1,33 +1,48 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Progress from 'react-native-progress';
 
-export default function TelaResultado({ navigation }) {
-    const [fontsLoaded] = useFonts({
-        'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
-        'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
-      });
-    
-      if (!fontsLoaded) {
-        return null;
-      }
+export default function TelaResultado({ navigation, route }) {
+  const [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) return <View />;
+
+  const { acertos = 0, total = 1 } = route.params || {};
+  const progresso = acertos / total;
 
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/taça.png')} style={styles.trophyImage} />
+      <Text style={styles.title}>
+        Parabéns, <Text style={styles.highlight}>Multimediano!</Text>
+      </Text>
 
-      <Text style={styles.title}>Parabéns, <Text style={styles.highlight}>Multimediano!</Text> 🎉</Text>
-      <Text style={styles.subtitle}>Você concluiu o quiz com sucesso! Continue explorando e aprendendo com a gente! 📚🎓</Text>
-      
+      <Progress.Circle
+        size={140}
+        progress={progresso}
+        color="#FF6700"
+        borderWidth={6}
+        showsText={true}
+        formatText={() => `${Math.round(progresso * 100)}%`}
+        style={styles.progress}
+      />
+
+      <Text style={styles.subtitle}>
+        Você acertou {acertos} de {total} perguntas! Continue explorando e aprendendo com a gente! 📚🎓
+      </Text>
+
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Quiz')}>
         <LinearGradient
-                  colors={['#FF6600', '#FFD700']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  style={styles.gradientButton}
-                >
-                <Text style={styles.buttonText}>Concluir</Text>
+          colors={['#FF6600', '#FFD700']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.gradientButton}
+        >
+          <Text style={styles.buttonText}>Concluir</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -43,6 +58,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
+    marginTop: 50,
     fontSize: 20,
     fontFamily: 'Poppins-Bold',
     textAlign: 'center',
@@ -55,18 +71,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
     textAlign: 'center',
-    marginBottom: 80,
-    color: '#17234D'
+    marginBottom: 60,
+    color: '#17234D',
+    paddingHorizontal: 20,
   },
-  trophyImage: {
-    marginTop: 40,
-    width: 203,
-    height: 168,
-    resizeMode: 'contain',
-    marginBottom: 100,
+  progress: {
+    marginBottom: 20,
   },
   button: {
-    backgroundColor: '#FFA706',
     width: '55%',
     height: 40,
     borderRadius: 15,
@@ -74,16 +86,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 35,
   },
+  gradientButton: {
+    width: '100%',
+    height: 50,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   buttonText: {
     color: '#FFF',
     fontFamily: 'Poppins-Bold',
     fontSize: 16,
   },
-  gradientButton: {
-    width: '100%',
-    height: 50,
-    borderRadius: 15, 
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
 });
