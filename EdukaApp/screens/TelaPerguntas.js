@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
   score: {
-    marginTop: 30,
+    marginTop: 20,
     fontSize: 14,
     fontFamily: 'Poppins-Bold',
     marginBottom: 10,
