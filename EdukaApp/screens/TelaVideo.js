@@ -1,60 +1,62 @@
 import React from 'react';
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
 
-const aulasPorTema = {
-  Photoshop: [
-    { id: '1', titulo: 'Introdução ao Photoshop' },
-    { id: '2', titulo: 'Aula 1: Ferramentas Básicas' },
-    { id: '3', titulo: 'Aula 2: Camadas e Máscaras' },
+const tmTemas = {
+  "Photoshop": [
+    { id: '1', titulo: 'Introdução ao Photoshop', pdf: 'https://drive.google.com/file/d/1_h3Y5jDw8MsGP_QT6AHlngTI_1zFkwut/view?usp=sharing', video: 'https://youtu.be/9LLSEzn7UcU?list=PL36fy0HIN6VrzMqqsa8I6q3zYR7nSDZmK' },
+    { id: '2', titulo: 'Ferramentas do Photoshop', pdf: 'https://drive.google.com/file/d/1_h3Y5jDw8MsGP_QT6AHlngTI_1zFkwut/view?usp=sharing', video: 'https://www.youtube.com/watch?v=kW1n8aNu_58&pp=ygUVcGhvdG9zaG9wIGZlcnJhbWVudGFz' }
   ],
-  Inkscape: [
-    { id: '1', titulo: 'Introdução ao Inkscape' },
-    { id: '2', titulo: 'Aula 1: Vetorização' },
+  "Inkscape": [
+    { id: '1', titulo: 'Introdução ao Inkscape', pdf: 'https://drive.google.com/file/d/13EK7uy15ak8_5_FuUf7Zecra5VBxK9x9/view?usp=sharing', video: 'https://www.youtube.com/watch?v=ms4LpaNhfgA&pp=ygUYaW50cm9kdcOnw6NvIGFvIGlua3NjYXBl' }
   ],
-  Blender: [
-    { id: '1', titulo: 'Introdução ao Blender' },
-    { id: '2', titulo: 'Aula 1: Ferramentas básicas do Blender' },
-  ],
-  Unity: [
-    { id: '1', titulo: 'Introdução ao Unity' },
-    { id: '2', titulo: 'Aula 1: Ferramentas básicas do Unity' },
-  ],
+  "Blender": [
+    { id: '1', titulo: 'Introdução ao Blender', pdf: 'https://drive.google.com/file/d/18hiJFSKuvk_j9WkRM5HklZPC1sPs6oN7/view?usp=drive_link' , video: ''},
+    { id: '2', titulo: 'Ferramentas do Blender', pdf: 'https://drive.google.com/file/d/18hiJFSKuvk_j9WkRM5HklZPC1sPs6oN7/view?usp=drive_link', video: 'https://www.youtube.com/watch?v=jkl345' }
+  ]
 };
 
-const TelaVideo = ({ route }) => {
-  const navigation = useNavigation();
+const TelaVideo = ({ route, navigation }) => {
   const { tema } = route.params;
-  const aulas = aulasPorTema[tema] || [];
+  const aulas = tmTemas[tema] || [];
 
   return (
     <View style={styles.container}>
-      {/* Banner */}
-      <View style={styles.bannerContainer}>
-        <Image source={require('../assets/linear.png')} style={styles.bannerImage} />
-        <View style={styles.bannerContent}>
-          <View style={styles.iconCircle}>
-            <Icon name="time-outline" size={24} color="#17234D" />
-          </View>
-          <Text style={styles.titulo}>Técnicas Multimédia</Text>
-          <Text style={styles.temaText}>Tema: {tema}</Text>
-        </View>
-      </View>
+      <Text style={styles.sectionTitle}>{tema}</Text>
+      <ScrollView>
+        {aulas.map((aula) => (
+          <View key={aula.id} style={styles.aulaCard}>
+            <Text style={styles.aulaTitulo}>{aula.titulo}</Text>
+            
+            {/* botao de ler pdf */}
+            <TouchableOpacity 
+              style={styles.botao}
+              onPress={() => navigation.navigate('PDF', { pdfUrl: aula.pdf })}
+            >
+              <Icon name="document-text-outline" size={24} color="#fff" />
+              <Text style={styles.textoBotao}>Ler PDF</Text>
+            </TouchableOpacity>
 
-      {/* Lista de aulas */}
-      <FlatList
-        data={aulas}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity 
-            style={styles.aulaCard}
-            onPress={() => navigation.navigate('TelaAula', { tema, titulo: item.titulo })}
-          >
-            <Text style={styles.aulaTitulo}>{item.titulo}</Text>
-          </TouchableOpacity>
-        )}
-      />
+            {/* botão pra assistir */}
+            {aula.video && (
+              <TouchableOpacity 
+                style={styles.botao} 
+                onPress={() => {
+                  if (aula.video) {
+                    navigation.navigate('VideoTM', { video: aula.video });
+                  } else {
+                    alert("Vídeo indisponível para esta aula.");
+                  }
+                }}
+                
+              >
+                <Icon name="play-circle-outline" size={24} color="#fff" />
+                <Text style={styles.textoBotao}>Assistir Vídeo</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -66,67 +68,43 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 20,
   },
-  bannerContainer: {
-    height: 185,
-    borderRadius: 15,
-    overflow: 'hidden',
-    position: 'relative',
-    marginTop: 12,
-    marginBottom: 30,
-  },
-  bannerImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-  },
-  bannerContent: {
-    position: 'absolute',
-    top: 0,
-    left: 10,
-    right: 0,
-    bottom: 5,
-    justifyContent: 'center',
-  },
-  iconCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: 25,
-    backgroundColor: '#F8F9FF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 13,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  temaText: {
-    color: '#fff',
+  sectionTitle: {
+    color: '#17234D',
+    fontSize: 18,
     fontWeight: 'bold',
-    fontSize: 16,
-    marginTop: 5,
+    marginBottom: 15,
   },
   aulaCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 30,
-    marginBottom: 12,
+    backgroundColor: '#F8F9FF',
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 3,
   },
   aulaTitulo: {
     fontSize: 16,
-    color: '#000000',
-  },
-  titulo: {
-    color: '#17234D',
-    fontSize: 17,
     fontWeight: 'bold',
-    marginTop: 15,
+    color: '#17234D',
+    marginBottom: 10,
+  },
+  botao: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#17234D',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  textoBotao: {
+    color: '#fff',
+    fontSize: 16,
+    marginLeft: 8,
   },
 });
 

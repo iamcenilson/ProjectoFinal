@@ -1,16 +1,30 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useFonts } from 'expo-font';
 
 const TelaBemVindo = ({ navigation }) => {
+  const [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bem vindo</Text>
       <View style={styles.iconContainer}>
         <Image
-            source={require('../assets/BemVindo.png')}
+            source={require('../assets/fixe.png')}
             style={styles.image}
         />
       </View>
+
+      <Text style={styles.title}>
+        Está tudo pronto
+      </Text>
+
       <Text style={styles.description}>
         Bem vindo ao EDUKA o app para todos os Multimediadores
       </Text>
@@ -18,7 +32,7 @@ const TelaBemVindo = ({ navigation }) => {
         style={styles.button}
         onPress={() => navigation.navigate('Menu')}
       >
-        <Text style={styles.buttonText}>Seguinte</Text>
+        <Text style={styles.buttonText}>Concluir</Text>
       </TouchableOpacity>
     </View>
   );
@@ -32,37 +46,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F8FF',
   },
   title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#1F41BB',
-    marginBottom: 60,
+    fontFamily:'Poppins-Bold',
+    fontSize: 35,
+    color: '#FF6700',
+    marginBottom: 40,
   },
   image: {
-    width: 150,
-    height: 150,
-    marginBottom: 70,
+    width: 257,
+    height: 257,
+    marginBottom: 60,
+    marginTop: '50',
   },
   description: {
-    fontSize: 16,
-    color: '#000000',
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: '#FF6700',
     textAlign: 'center',
     marginHorizontal: 20,
-    marginBottom: 70,
+    marginBottom: 50,
   },
   button: {
-    backgroundColor: '#1F41BB',
+    backgroundColor: '#8338EC',
     paddingVertical: 15,
     paddingHorizontal: 100,
-    borderRadius: 10,
+    borderRadius: 20,
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
   },
   buttonText: {
+    fontFamily: 'Poppins-Bold',
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 

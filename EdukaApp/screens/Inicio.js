@@ -1,37 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Inicio({ navigation }) {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return null; // Substitui o antigo expo-app-loading
+  }
+
   return (
     <View style={styles.container}>
-      {/* Imagem/Ilustração */}
-      <Image
-        source={require('../assets/illustration.png')}
-        style={styles.image}
-        resizeMode="contain"
-      />
+      <Image source={require('../assets/boneco.png')} style={styles.image} resizeMode="contain" />
       
-      {/* Título */}
-      <Text style={styles.title}>EDUKA</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.subtitle}>
+          Olá <Text style={styles.boldText}>Multimediano!</Text>
+          {'\n'}Bem-vindo ao <Text style={styles.appName}>EDUKA</Text>, o app feito a pensar em si,
+        </Text>
+      </View>
       
-      {/* Subtítulo */}
-      <Text style={styles.subtitle}>
-        Explore todas as funções existentes com base no seu interesse e estudo principal
-      </Text>
-      
-      {/* Botões */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.primaryButton}
-          onPress={() => navigation.navigate('Login')}
-        >
-          <Text style={styles.primaryButtonText}>Entrar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.secondaryButton}
+          style={styles.registerButton}
           onPress={() => navigation.navigate('Registro')}
         >
-          <Text style={styles.secondaryButtonText}>Registrar</Text>
+          <Text style={styles.registerText}>Cadastrar</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <LinearGradient
+            colors={['#FF8000', '#FFD700']}
+            style={styles.loginGradient}
+          >
+            <Text style={styles.loginText}>Login</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
@@ -47,51 +57,57 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   image: {
-    width: 200,
-    height: 200,
-    marginBottom: 40,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#1F41BB',
-    marginBottom: 60,
+    width: 190,
+    height: 490,
+    marginBottom: 20,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
     color: '#000000',
-    textAlign: 'center',
-    marginBottom: 90,
+    textAlign: 'left',
+    alignSelf: 'flex-start',
+    marginBottom: 20,
     paddingHorizontal: 10,
+  },
+  boldText: {
+    fontFamily: 'Poppins_700Bold',
+    color: '#FF8000',
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     width: '100%',
   },
-  primaryButton: {
-    backgroundColor: '#1F41BB',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 10,
+  registerButton: {
+    borderWidth: 2,
+    borderColor: '#FF8000',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 30,
     marginRight: 10,
+  },
+  registerText: {
+    fontFamily: 'Poppins_700Bold',
+    color: '#FF8000',
+    fontSize: 18,
+  },
+  loginButton: {
     flex: 1,
+    borderRadius: 30,
+    overflow: 'hidden',
+  },
+  loginGradient: {
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 30,
     alignItems: 'center',
   },
-  primaryButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  secondaryButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    flex: 1,
-    alignItems: 'center',
-  },
-  secondaryButtonText: {
-    color: '#000000',
-    fontSize: 16,
-    fontWeight: 'bold',
+  loginText: {
+    fontFamily: 'Poppins_700Bold',
+    color: '#fff',
+    fontSize: 17,
   },
 });
+

@@ -15,13 +15,25 @@ import TelaDCA from './screens/TelaDCA';
 import TelaAulaTM from './screens/TelaAulaTM';
 import TelaVideoTM from './screens/TelaVideoTM';
 import TelapdfTM from './screens/TelapdfTM';
+import TelaAulaDCA from './screens/TelaAulaDCA';
+import TelaPdfDCA from './screens/TelaPdfDCA';
+import Eduka from './screens/Eduka';
+import TelaPerguntas from './screens/TelaPerguntas';
+import TelaResultado from './screens/TelaResultado';
+
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Inicio">
+      <Stack.Navigator initialRouteName="Intro">
+
+      <Stack.Screen 
+          name="Intro" 
+          component={Eduka} 
+          options={{ headerShown: false }} 
+        />
         <Stack.Screen 
           name="Inicio" 
           component={Inicio} 
@@ -87,6 +99,28 @@ export default function App() {
           component={TelapdfTM} 
           options={{ headerShown: false }} 
         />
+        <Stack.Screen 
+          name="DCAAula" 
+          component={TelaAulaDCA} 
+          options={{ headerShown: false }} 
+        />
+         <Stack.Screen 
+          name="PDF" 
+          component={TelaPdfDCA} 
+          options={{ headerShown: false }} 
+        />
+         <Stack.Screen 
+          name="Perguntas" 
+          component={TelaPerguntas} 
+          options={{ headerShown: false }} 
+        />
+         <Stack.Screen 
+          name="Resultado" 
+          component={TelaResultado} 
+          options={{ headerShown: false }} 
+        />
+      
+
       </Stack.Navigator>
     </NavigationContainer>
   );

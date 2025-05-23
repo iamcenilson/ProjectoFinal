@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useFonts } from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import api from '../api';
 
 export default function TelaRegistro({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [fontsLoaded] = useFonts({
+      'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
+      'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
+    });
+  
+    if (!fontsLoaded) {
+      return null;
+    } 
 
   const handleRegister = async () => {
     try {
@@ -28,20 +39,27 @@ export default function TelaRegistro({ navigation }) {
       <Text style={styles.subtitle}>uma conta</Text>
 
       <TextInput placeholder="nome" value={name} onChangeText={setName}
-        style={styles.input}
+        style={styles.input} placeholderTextColor="#FF6700"
       />
 
       <TextInput placeholder="email"  value={email} onChangeText={setEmail}
-        style={styles.input1}
+        style={styles.input} placeholderTextColor="#FF6700"
       />
 
       <TextInput placeholder="senha" value={password} onChangeText={setPassword}
         secureTextEntry
-        style={styles.input2}
+        style={styles.input} placeholderTextColor="#FF6700"
       />
 
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Criar</Text>
+        <LinearGradient
+                  colors={['#FF6600', '#FFD700']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.gradientButton}
+                >
+                <Text style={styles.buttonText}>Criar</Text>
+                </LinearGradient>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
@@ -61,60 +79,55 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontWeight: 'bold',
-    color: '#1F41BB',
-    marginBottom: 10,
+    fontFamily: 'Poppins-Bold',
+    color: '#FF6700',
+    marginBottom: 25,
   },
   subtitle: {
     fontSize: 16,
-    color: '#000000',
+    fontFamily: 'Poppins-Regular',
+    color: '#8338EC',
     marginBottom: 5,
-    fontWeight: 'bold',
   },
   input: {
+    marginTop:'20',
     width: '100%',
     height: 50,
     backgroundColor: '#F1F4FF',
     borderRadius: 10,
     paddingHorizontal: 15,
-    marginBottom: 20,
+    marginBottom: 9,
     borderWidth: 1,
-    borderColor: '#1F41BB',
-  },
-  input1: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#F1F4FF',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 20,
-  },
-  input2: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#F1F4FF',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 20,
+    borderColor: '#8338EC',
+    fontFamily: 'Poppins-Regular',
   },
   button: {
     backgroundColor: '#1F41BB',
     width: '100%',
     height: 50,
-    borderRadius: 10,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 30,
     elevation: 3,
+    marginTop:'30',
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
   },
   alreadyHaveAccount: {
     color: '#494949',
     marginTop: 10,
     fontSize: 14,
+    fontFamily: 'Poppins-Regular',
   },
+  gradientButton: {
+    width: '100%',
+    height: 50,
+    borderRadius: 20, 
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
 });

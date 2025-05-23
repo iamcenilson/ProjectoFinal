@@ -1,15 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-const TelapdfTM = () => {
+const TelapdfTM = ({ route }) => {
+  const { pdfUrl } = route.params;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Leitor de PDF</Text>
-      <WebView
-        source={require('../assets/pdf/Manual de Photoshop(EDUKA).pdf')}
-        style={styles.webview}
-      />
+        <Text style={styles.titulo}>Leitor de PDF</Text>
+      <WebView source={{ uri: pdfUrl }} style={styles.webview} />
     </View>
   );
 };
@@ -24,6 +23,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
+    marginTop: 50,
   },
   webview: {
     flex: 1,

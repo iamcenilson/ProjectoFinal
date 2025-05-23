@@ -1,108 +1,111 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Dimensions } from 'react-native';
+import { useFonts } from 'expo-font';
 
+const disciplines = [
+  {
+    id: '1',
+    title: 'Design e Comunicação Audiovisual',
+    image: require('../assets/DCA.png'),
+    screen: 'DCA'
+  },
+  {
+    id: '2',
+    title: 'Técnicas Multimédia',
+    image: require('../assets/TM.png'),
+    screen: 'TM'
+  },
+];
+
+const carouselImages = [
+  require('../assets/Slide 1.png'),
+  require('../assets/Slide 2.png'),
+  require('../assets/Slide 3.png'),
+];
 
 const { width } = Dimensions.get('window');
 
-const images = [
-  { id: '1', src: require('../assets/Slide 1.png') },
-  { id: '2', src: require('../assets/Slide 2.png') },
-  { id: '3', src: require('../assets/Slide 3.png') },
-];
-
 const MenuPrincipal = ({ navigation }) => {
-  const flatListRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedDisciplina, setSelectedDisciplina] = useState("Todas");
+  const [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
+  });
+
+  const scrollViewRef = useRef(null);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
-      setCurrentIndex(nextIndex);
-    }, 3000); // Troca a cada 3 segundos
-
+      const nextIndex = (index + 1) % carouselImages.length;
+      setIndex(nextIndex);
+      scrollViewRef.current?.scrollTo({ x: nextIndex * width, animated: true });
+    }, 3000);
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [index]);
 
-  const aulas = [
-    { id: "1", titulo: "Design e comunicação de Audiovisual", disciplina: "DCA",
-       imagem: require('../assets/Jogo 2d.png'), screen: 'DCA' },
-
-
-    { id: "2", titulo: "Técnicas Multimédia", disciplina: "Técnicas Multimédia",
-       imagem: require('../assets/Rectangle 12.png'), screen: 'TM' }
-  ];
-
-  // Filtração das disciplina selecionada
-  const aulasFiltradas = selectedDisciplina === "Todas" 
-    ? aulas 
-    : aulas.filter(aula => aula.disciplina === selectedDisciplina);
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
+      {/* Cabeçalho */}
       <View style={styles.header}>
-        <Image
-          source={require('../assets/Perfil.png')}
-          style={styles.profileImage}
-        />
-        <Text style={styles.name}>Alanna da Costa</Text>
+        <View>
+          <Text style={styles.welcomeText}>Olá Bem-Vindo ao</Text>
+          <Text style={styles.userName}>EDUKA</Text>
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
+          <Image source={require('../assets/Perfil.png')} style={styles.profileImage} />
+        </TouchableOpacity>
       </View>
 
-      {/* Slideshow */}
-      <View style={styles.slideshowContainer}>
+      {/* Carrossel automático */}
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        pagingEnabled
+        scrollEnabled={false}
+        showsHorizontalScrollIndicator={false}
+        style={styles.carouselContainer}
+      >
+        {carouselImages.map((img, idx) => (
+          <Image key={idx} source={img} style={styles.carouselImage} />
+        ))}
+      </ScrollView>
+
+      {/* Seção de Disciplinas */}
+      <View style={styles.disciplinesContainer}>
+        <Text style={styles.sectionTitle}>Disciplinas</Text>
         <FlatList
-          ref={flatListRef}
-          data={images}
-          keyExtractor={(item) => item.id}
+          data={disciplines}
           horizontal
-          pagingEnabled
           showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Image source={item.src} style={styles.slideshowImage} />
+            <TouchableOpacity
+              style={styles.disciplineCard}
+              onPress={() => navigation.navigate(item.screen)}
+            >
+              <Image source={item.image} style={styles.disciplineImage} />
+            </TouchableOpacity>
           )}
         />
       </View>
 
-      {/* Botões de disciplina */}
-      <View style={styles.disciplinesContainer}>
-        <Text style={styles.sectionTitle}>Disciplinas</Text>
-        <View style={styles.disciplinesButtons}>
-          {["Todas", "DCA", "Técnicas Multimédia"].map((disciplina) => (
-            <TouchableOpacity
-              key={disciplina}
-              style={[
-                styles.disciplineButton,
-                selectedDisciplina === disciplina && styles.disciplineButtonActive
-              ]}
-              onPress={() => setSelectedDisciplina(disciplina)}
-            >
-              <Text style={[
-                styles.disciplineButtonText,
-                selectedDisciplina === disciplina && styles.disciplineButtonTextActive
-              ]}>
-                {disciplina}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      {/* Rodapé */}
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Quiz')}>
+          <Image source={require('../assets/jogo.png')} style={styles.footerIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Menu')}>
+          <Image source={require('../assets/home.png')} style={[styles.footerIcon, styles.activeIcon]} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Perfil')}>
+          <Image source={require('../assets/user.png')} style={styles.footerIcon} />
+        </TouchableOpacity>
       </View>
-
-      {/* Lista de aulas filtradas */}
-      <ScrollView style={styles.lessonsContainer}>
-        {aulasFiltradas.map((aula) => (
-          <TouchableOpacity 
-            key={aula.id} 
-            style={styles.lessonCard} 
-            onPress={() => navigation.navigate(aula.screen)}
-          >
-            <Image source={aula.imagem} style={styles.lessonImage} />
-            <View>
-              <Text style={styles.lessonTitle}>{aula.titulo}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
     </View>
   );
 };
@@ -110,88 +113,89 @@ const MenuPrincipal = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
+    backgroundColor: '#FFF',
+    
   },
   header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 40,
+    paddingHorizontal: 20,
+  },
+  welcomeText: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
+    color: '#000',
+  },
+  userName: {
+    fontSize: 15,
+    fontFamily: 'Poppins-Bold',
+    color: '#6A1B9A',
+    lineHeight: 18,
   },
   profileImage: {
     width: 40,
     height: 40,
-    borderRadius: 25,
+    borderRadius: 20,
   },
-  name: {
-    marginLeft: 12,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  slideshowContainer: {
-    marginTop: 16,
-    width: '100%',
-    height: 160,
-    borderRadius: 15,
-    overflow: 'hidden',
-    alignSelf: 'center',
-  },
-  slideshowImage: {
-    width: width - 32,
-    height: 160,
-    borderRadius: 15,
-    resizeMode: 'cover',
-  },
+  carouselContainer: {
+  width: width,
+  height: 140,
+  alignSelf: 'center',
+  marginTop: 10,
+  marginBottom: 0,
+},
+ carouselImage: {
+  width,
+  height: 180,
+  resizeMode: 'cover',
+  borderRadius: 25,
+},
   disciplinesContainer: {
-    marginTop: 20,
-  },
+  marginTop: 5,
+  paddingHorizontal: 12,
+  flexGrow: 0,
+  flexShrink: 1,
+},
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
+    color: '#6A1B9A',
+    marginBottom: 9,
   },
-  disciplinesButtons: {
+  disciplineCard: {
+    width: 235,
+    height: 265,
+    borderRadius: 15,
+    overflow: 'hidden',
+    marginRight: 18,
+    marginBottom: 15,
+  },
+  disciplineImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  footer: {
     flexDirection: 'row',
-    marginTop: 20,
-  },
-  disciplineButton: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginRight: 8,
-  },
-  disciplineButtonActive: {
-    backgroundColor: '#1F41BB',
-  },
-  disciplineButtonText: {
-    color: '#000',
-    fontWeight: 'bold'
-  },
-  disciplineButtonTextActive: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  lessonsContainer: {
-    marginTop: 20,
-  },
-  lessonCard: {
-    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#F7F7F7',
-    borderRadius: 25,
-    padding: 33,
-    marginBottom: 13,
+    backgroundColor: '#FFF',
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E5E5',
   },
-  lessonImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 8,
-    marginRight: 12,
+  footerButton: {
+    padding: 10,
   },
-  lessonTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000 ',
+  footerIcon: {
+    width: 30,
+    height: 30,
+    tintColor: '#2E2E2E',
+  },
+  activeIcon: {
+    tintColor: '#FFA500',
   },
 });
 

@@ -1,32 +1,18 @@
-import React, { useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Video } from 'expo-av';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { WebView } from 'react-native-webview';
 
-const TelaVideoTM = ({ route, navigation }) => {
-  const videoRef = useRef(null); 
-
-  
-  const { titulo = 'Vídeo' } = route.params || {};
+const TelaVideoTM = ({ route }) => {
+  const { titulo = 'Vídeo', video } = route.params || {};
 
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>{titulo}</Text>
-
-      <Video
-        ref={videoRef}
-        source={require('../assets/Video/lebron.mp4')}
+      <WebView
+        source={{ uri: video }}
         style={styles.video}
-        useNativeControls
-        resizeMode="contain"
-        isLooping
-        shouldPlay
+        allowsFullscreenVideo
       />
-
-      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back-outline" size={24} color="#fff" />
-        <Text style={styles.textoBotao}>Voltar</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -34,35 +20,20 @@ const TelaVideoTM = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
     paddingHorizontal: 20,
+    justifyContent: 'center',
   },
   titulo: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#17234D',
     marginBottom: 20,
+    textAlign: 'center',
   },
   video: {
-    width: '90%',
-    height: 250,
-    backgroundColor: '#000',
-  },
-  botaoVoltar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#17234D',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  textoBotao: {
-    color: '#fff',
-    fontSize: 18,
-    marginLeft: 10,
+    width: '100%',
+    height: 300,
   },
 });
 

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "476513073845",
+    "project_id": "eduka-app",
+    "storage_bucket": "eduka-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476513073845:android:05b7f43a18e0759d545cfc",
+        "android_client_info": {
+          "package_name": "com.eduka.aplicativo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB4zikSx8kbJGbTtU_99K9wE9qbavB8zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476513073845:android:475533f864244f17545cfc",
+        "android_client_info": {
+          "package_name": "com.eduka.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB4zikSx8kbJGbTtU_99K9wE9qbavB8zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
