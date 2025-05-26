@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../api';
 
 export default function TelaLogin({ navigation }) {
@@ -18,14 +19,18 @@ export default function TelaLogin({ navigation }) {
   }
 
   const handleLogin = async () => {
-    try {
-      const response = await api.post('/login', { email, password });
-      Alert.alert('Sucesso', response.data.message);
-      navigation.navigate('Menu');
-    } catch (error) {
-      Alert.alert('Erro', error.response?.data?.message || 'Algo deu errado.');
-    }
-  };
+  try {
+    const response = await api.post('/login', { email, password });
+    const user = response.data.user;
+
+    await AsyncStorage.setItem('user', JSON.stringify(user));
+
+    Alert.alert('Sucesso', response.data.message);
+    navigation.navigate('Menu');
+  } catch (error) {
+    Alert.alert('Erro', error.response?.data?.message || 'Algo deu errado.');
+  }
+};
 
   return (
     <View style={styles.container}>

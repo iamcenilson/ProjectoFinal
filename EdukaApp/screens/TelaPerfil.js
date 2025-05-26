@@ -1,41 +1,51 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useFonts } from 'expo-font';
 
 const TelaPerfil = ({ navigation }) => {
+  const [usuario, setUsuario] = useState(null);
+
   const [fontsLoaded] = useFonts({
-          'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
-          'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
-        });
-      
-        if (!fontsLoaded) {
-          return null;
-        } 
+    'Poppins-Regular': require('../assets/fontes/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('../assets/fontes/Poppins-Bold.ttf'),
+  });
+
+  useEffect(() => {
+    const carregarUsuario = async () => {
+      const userData = await AsyncStorage.getItem('user');
+      if (userData) {
+        setUsuario(JSON.parse(userData));
+      }
+    };
+    carregarUsuario();
+  }, []);
+
+  if (!fontsLoaded || !usuario) {
+    return null;
+  }
 
   return (
     <ImageBackground source={require('../assets/perfil (1).png')} style={styles.background}>
       <View style={styles.container}>
         <View style={styles.card}>
           <View style={styles.profileContainer}>
-            <Image
-              source={require('../assets/foto.png')}
-              style={styles.profileImage}
-            />
+            <Image source={require('../assets/foto.png')} style={styles.profileImage} />
           </View>
-          
-          <Text style={styles.name}>Alanna da Costa</Text>
-          <Text style={styles.email}>alannacosta18@gmail.com</Text>
 
+          <Text style={styles.name}>{usuario.name}</Text>
+          <Text style={styles.email}>{usuario.email}</Text>
+
+          {/* Aqui você pode ajustar os dados dos pontos e horas de estudo depois */}
           <View style={styles.statsContainer}>
             <View style={styles.statBox}>
-              <Icon name="star" size={20} color="#fff" style={styles.statIcon} />
+              <Icon name="star" size={20} color="#fff" />
               <Text style={styles.statNumber}>589</Text>
               <Text style={styles.statLabel}>Pontos</Text>
             </View>
             <View style={styles.statBox}>
-              <Icon name="time-outline" size={20} color="#fff" style={styles.statIcon} />
+              <Icon name="time-outline" size={20} color="#fff" />
               <Text style={styles.statNumber}>1h 39min</Text>
               <Text style={styles.statLabel}>Horas de Estudo</Text>
             </View>
@@ -48,7 +58,13 @@ const TelaPerfil = ({ navigation }) => {
             <TouchableOpacity style={styles.menuItem}>
               <Text style={styles.menuText}>Eliminar Conta</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={async () => {
+                await AsyncStorage.removeItem('usuario');
+                navigation.navigate('Login');
+              }}
+            >
               <Text style={[styles.menuText, styles.logout]}>Terminar Sessão</Text>
             </TouchableOpacity>
           </View>

@@ -30,7 +30,7 @@ const TelaBemVindo = ({ navigation }) => {
       </Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Menu')}
+        onPress={() => navigation.navigate('Login')}
       >
         <Text style={styles.buttonText}>Concluir</Text>
       </TouchableOpacity>
