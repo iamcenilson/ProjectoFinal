@@ -1,0 +1,99 @@
+.user-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 35px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #222;
+  text-align: center;
+}
+
+.user-table {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.user-table th {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.btn {
+  
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.btn.edit {
+  background-color: #007bff;
+}
+
+.btn.delete {
+  background-color: #dc3545;
+}
+
+.btn.save {
+  background-color: #28a745;
+}
+
+.btn.cancel {
+  background-color: #6c757d;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.edit-form {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 30px;
+  background: #fefefe;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  max-width: 400px;
+}
+
+.edit-form h3 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.edit-form input {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
