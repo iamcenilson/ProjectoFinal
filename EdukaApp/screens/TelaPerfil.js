@@ -41,13 +41,13 @@ const TelaPerfil = ({ navigation }) => {
           <View style={styles.statsContainer}>
             <View style={styles.statBox}>
               <Icon name="star" size={20} color="#fff" />
-              <Text style={styles.statNumber}>589</Text>
+              <Text style={styles.statNumber}>{usuario.pontos || 0}</Text>
               <Text style={styles.statLabel}>Pontos</Text>
             </View>
             <View style={styles.statBox}>
               <Icon name="time-outline" size={20} color="#fff" />
-              <Text style={styles.statNumber}>1h 39min</Text>
-              <Text style={styles.statLabel}>Horas de Estudo</Text>
+              <Text style={styles.statNumber}>{usuario.horas_estudo || 0}</Text>
+                <Text style={styles.statLabel}>Horas de Estudo</Text>
             </View>
           </View>
 
@@ -61,7 +61,7 @@ const TelaPerfil = ({ navigation }) => {
             <TouchableOpacity
               style={styles.menuItem}
               onPress={async () => {
-                await AsyncStorage.removeItem('usuario');
+                await AsyncStorage.removeItem('user');
                 navigation.navigate('Login');
               }}
             >
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
-    top: '5%',
+    top: '0%',
   },
   container: {
     flex: 1,

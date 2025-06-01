@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../api';
+
 
 const perguntas = {
  //Perguntas sobre DCA "Poga é bué ya faq"
@@ -362,34 +365,55 @@ export default function TelaPerguntas({ route, navigation }) {
   const [selecionado, setSelecionado] = useState(null);
   const [feedback, setFeedback] = useState(null);
 
+  const atualizarPontosLocalmente = async (pontosParaSomar) => {
+    try {
+      const userData = await AsyncStorage.getItem('user');
+      if (userData) {
+        const usuario = JSON.parse(userData);
+        usuario.pontos = (usuario.pontos || 0) + pontosParaSomar;
+        await AsyncStorage.setItem('user', JSON.stringify(usuario));
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar pontos localmente:', error);
+    }
+  };
+
   const mostrarResultado = () => {
     if (!selecionado || feedback) return;
 
     const acertou = selecionado === questoes[indice].respostaCorreta;
+    const novosPontos = acertou ? pontos + 1 : pontos;
+
     if (acertou) {
-      setPontos(pontos + 1);
+      setPontos(novosPontos);
       setFeedback('correta');
     } else {
       setFeedback('errada');
     }
 
-    setTimeout(() => {
+    setTimeout(async () => {
       setFeedback(null);
       setSelecionado(null);
 
       if (indice < questoes.length - 1) {
         setIndice(indice + 1);
       } else {
-        Alert.alert('Quiz concluído!', `Você acertou ${acertou ? pontos + 1 : pontos} de ${questoes.length}`, [
-          {
-            text: 'Ver Resultado',
-            onPress: () =>
-              navigation.navigate('Resultado', {
-                acertos: acertou ? pontos + 1 : pontos,
-                total: questoes.length
-              })
-          }
-        ]);
+        await atualizarPontosLocalmente(novosPontos);
+
+        Alert.alert(
+          'Quiz concluído!',
+          `Você acertou ${novosPontos} de ${questoes.length}`,
+          [
+            {
+              text: 'Ver Resultado',
+              onPress: () =>
+                navigation.navigate('Resultado', {
+                  acertos: novosPontos,
+                  total: questoes.length,
+                }),
+            },
+          ]
+        );
       }
     }, 1000);
   };

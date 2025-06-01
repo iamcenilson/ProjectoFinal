@@ -144,11 +144,11 @@ const styles = StyleSheet.create({
   height: 140,
   alignSelf: 'center',
   marginTop: 10,
-  marginBottom: 0,
+  paddingHorizontal: 9,
 },
  carouselImage: {
   width,
-  height: 180,
+  height: 195,
   resizeMode: 'cover',
   borderRadius: 25,
 },

@@ -81,6 +81,27 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+aapp.patch('/api/users/:id/pontos', (req, res) => {
+  const { id } = req.params;
+  const { pontos } = req.body;
+
+  if (isNaN(pontos)) {
+    return res.status(400).json({ error: 'Pontos inválidos' });
+  }
+
+  const query = 'UPDATE users SET pontos = pontos + ? WHERE id = ?';
+
+  db.query(query, [pontos, id], (err, results) => {
+    if (err) {
+      console.error('Erro ao atualizar pontos:', err);
+      return res.status(500).json({ error: 'Erro ao atualizar pontos' });
+    }
+
+    res.json({ message: 'Pontos atualizados com sucesso' });
+  });
+});
+
+
 const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Se tá rodar deixa já ${PORT}`);

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: '5%',
+    top: '0%',
     alignItems: 'center',
   },
   backgroundImage: {
