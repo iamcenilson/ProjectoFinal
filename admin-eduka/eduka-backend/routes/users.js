@@ -1,9 +1,11 @@
-// backend/routes/users.js
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// Rota para listar todos os usuários
+
+// ------------------ USUÁRIOS ------------------
+
+// Listar todos os usuários
 router.get('/', (req, res) => {
   db.query('SELECT * FROM users', (err, results) => {
     if (err) {
@@ -14,16 +16,16 @@ router.get('/', (req, res) => {
   });
 });
 
-// DELETE - deletar usuário por ID
+// Deletar usuário
 router.delete('/:id', (req, res) => {
   const userId = req.params.id;
-  db.query('DELETE FROM users WHERE id = ?', [userId], (err, result) => {
+  db.query('DELETE FROM users WHERE id = ?', [userId], (err) => {
     if (err) return res.status(500).json({ error: 'Erro ao deletar usuário' });
     res.json({ message: 'Usuário deletado com sucesso' });
   });
 });
 
-// PUT - editar usuário
+// Atualizar usuário
 router.put('/:id', (req, res) => {
   const userId = req.params.id;
   const { name, email, pontos, horas_estudo } = req.body;
@@ -31,7 +33,7 @@ router.put('/:id', (req, res) => {
   db.query(
     'UPDATE users SET name = ?, email = ?, pontos = ?, horas_estudo = ? WHERE id = ?',
     [name, email, pontos, horas_estudo, userId],
-    (err, result) => {
+    (err) => {
       if (err) return res.status(500).json({ error: 'Erro ao atualizar usuário' });
       res.json({ message: 'Usuário atualizado com sucesso' });
     }
@@ -73,4 +75,69 @@ router.get('/total/month/:month', (req, res) => {
 });
 
 
+// ------------------ VÍDEO-AULAS ------------------
+
+// Adicionar vídeo-aula
+router.post('/videoaula', (req, res) => {
+  const { titulo_videoaula, url_videoaula, duracao_videoaula, id_topico } = req.body;
+
+  if (!titulo_videoaula || !url_videoaula || !id_topico) {
+    return res.status(400).json({ message: 'Campos obrigatórios ausentes.' });
+  }
+
+  const sql = `INSERT INTO VideoAula (titulo_videoaula, url_videoaula, duracao_videoaula, id_topico) VALUES (?, ?, ?, ?)`;
+
+  db.query(sql, [titulo_videoaula, url_videoaula, duracao_videoaula, id_topico], (err, result) => {
+    if (err) {
+      console.error('Erro ao adicionar vídeo-aula:', err);
+      return res.status(500).json({ error: 'Erro ao adicionar vídeo-aula.' });
+    }
+    res.status(201).json({ message: 'Vídeo-aula adicionada com sucesso.' });
+  });
+});
+
+
+// Listar vídeo-aulas
+router.get('/videoaulas', (req, res) => {
+  db.query('SELECT * FROM VideoAula', (err, results) => {
+    if (err) {
+      console.error('Erro ao listar vídeo-aulas:', err);
+      return res.status(500).json({ error: 'Erro ao listar vídeo-aulas.' });
+    }
+    res.json(results);
+  });
+});
+
+
+// ------------------ PDF ------------------
+
+
+router.get('/pdfs', (req, res) => {
+  db.query('SELECT * FROM PDF', (err, results) => {
+    if (err) {
+      console.error('Erro ao listar PDFs:', err);
+      return res.status(500).json({ error: 'Erro ao listar PDFs.' });
+    }
+    res.json(results);
+  });
+});
+
+// Adicionar PDF
+router.post('/pdf', (req, res) => {
+  const { titulo_pdf, url_pdf, num_paginas_pdf, id_topico } = req.body;
+
+  if (!titulo_pdf || !url_pdf || !id_topico) {
+    return res.status(400).json({ message: 'Campos obrigatórios ausentes.' });
+  }
+
+  const sql = `INSERT INTO PDF (titulo_pdf, url_pdf, num_paginas_pdf, id_topico) VALUES (?, ?, ?, ?)`;
+
+  db.query(sql, [titulo_pdf, url_pdf, num_paginas_pdf, id_topico], (err, result) => {
+    if (err) {
+      console.error('Erro ao adicionar PDF:', err);
+      return res.status(500).json({ error: 'Erro ao adicionar PDF.' });
+    }
+    res.status(201).json({ message: 'PDF adicionado com sucesso.' });
+  });
+});
 module.exports = router;
