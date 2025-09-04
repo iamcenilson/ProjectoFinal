@@ -81,7 +81,7 @@ app.post("/api/login", (req, res) => {
   });
 });
 
-aapp.patch('/api/users/:id/pontos', (req, res) => {
+app.patch('/api/users/:id/pontos', (req, res) => {
   const { id } = req.params;
   const { pontos } = req.body;
 

@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: '0%',
+    top: '-1%',
     alignItems: 'center',
   },
   backgroundImage: {
     width: 390,
-    height: 389,
+    height: 490,
     resizeMode: 'contain',
   },
   title: {

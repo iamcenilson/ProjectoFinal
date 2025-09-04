@@ -74,15 +74,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingHorizontal: 1,
+    paddingTop: 15,
   },
   bannerContainer: {
-    height: 175,
-    borderRadius: 15,
+    height: 220,
+    borderRadius: 25,
     overflow: 'hidden',
     position: 'relative',
-    marginTop: 20,
+    marginTop: 10,
   },
   bannerImage: {
     width: '100%',

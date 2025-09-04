@@ -140,4 +140,16 @@ router.post('/pdf', (req, res) => {
     res.status(201).json({ message: 'PDF adicionado com sucesso.' });
   });
 });
+
+router.get('/disciplinas', (req, res) => {
+  db.query('SELECT * FROM Disciplina', (err, results) => {
+    if (err) {
+      console.error('Erro ao listar Disciplina:', err);
+      return res.status(500).json({ error: 'Erro ao listar Disciplina' });
+    }
+    res.json(results);
+  });
+});
+
+
 module.exports = router;
